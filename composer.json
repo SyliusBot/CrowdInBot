@@ -1,0 +1,68 @@
+{
+    "name": "sylius-bot/sylius-bot",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Kamil Kokot",
+            "email": "kamil.kokot@lakion.com",
+            "homepage": "http://kamil.kokot.me"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+
+        "symfony/symfony": "^2.7",
+        "symfony/twig-bundle": "^2.7",
+        "sensio/distribution-bundle": "^4.0",
+        "incenteev/composer-parameter-handler": "^2.0",
+
+        "jjanvier/crowdin-bundle": "dev-master@dev",
+        "jjanvier/crowdin-lib": "dev-master@dev"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.3"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookRootPackageInstall"
+        ],
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-4": { "SyliusBot\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SyliusBot\\spec\\": "spec/" }
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        }
+    }
+}

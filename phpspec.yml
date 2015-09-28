@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SyliusBot
+        psr4_prefix: SyliusBot
+        src_path: src/
