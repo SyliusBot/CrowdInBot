@@ -36,22 +36,40 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
 
-jjanvier_crowdin:
+#jjanvier_crowdin:
+#    crowdin:
+#        api_key: %crowdin_api_key%
+#        project_identifier: %crowdin_project_identifier%
+#    project:
+#        path: sources
+#    archive:
+#        clean: true
+#        header: "# This file is part of the Sylius package.\n# (c) Paweł Jędrzejewski\n\n"
+#    git:
+#        commit_message: "[ci skip] Updating translations from Crowdin"
+#    github:
+#        username: SyliusBot
+#        email: bot@sylius.org
+#        token: %github_token%
+#        organization: Sylius
+#        project: Sylius
+#        origin_branch: master
+#        pr_title: "[CrowdIn] Auto-updated translations"
+
+sylius_bot:
     crowdin:
+        git:
+            message: "[Translations] Updated translations from Crowdin"
+        translation_header: "# This file is part of the Sylius package.\n# (c) Paweł Jędrzejewski\n\n"
+        project_id: sylius
         api_key: %crowdin_api_key%
-        project_identifier: %crowdin_project_identifier%
-    project:
-        path: sources
-    archive:
-        clean: true
-        header: "# This file is part of the Sylius package.\n# (c) Paweł Jędrzejewski\n\n"
-    git:
-        commit_message: "[ci skip] Updating translations from Crowdin"
     github:
-        username: SyliusBot
-        email: bot@sylius.org
-        token: %github_token%
-        organization: Sylius
-        project: Sylius
-        origin_branch: master
-        pr_title: "[CrowdIn] Auto-updated translations"
+        authorization_token: %github_authorization_token%
+    project:
+        base:
+            organization: Sylius
+            repository: Sylius
+        head:
+            organization: SyliusBot
+            repository: Sylius
+            branch: crowdin-translations

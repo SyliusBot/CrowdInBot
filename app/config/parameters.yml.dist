@@ -18,7 +18,5 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    crowdin_api_key: ~
-    crowdin_project_identifier: sylius
-
-    github_token: ~
+    crowdin_api_key: EDITME
+    github_authorization_token: EDITME

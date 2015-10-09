@@ -8,3 +8,7 @@ framework:
     profiler:
         collect: false
 
+sylius_bot:
+    project:
+        base:
+            organization: SyliusBot

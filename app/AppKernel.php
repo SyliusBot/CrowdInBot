@@ -10,9 +10,12 @@ class AppKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
-
-            new Jjanvier\Bundle\CrowdinBundle\JjanvierCrowdinBundle(),
+            new SyliusBot\CrowdinBundle\SyliusBotBundle(),
         );
+
+        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+        }
 
         return $bundles;
     }
