@@ -66,7 +66,7 @@ class GitAwareDownSynchronizerSpec extends ObjectBehavior
         $headBranch->getName()->willReturn('new-branch');
 
         $git->checkout('-b new-branch')->shouldBeCalled();
-        $git->add('.')->shouldBeCalled();
+        $git->add('. --all')->shouldBeCalled();
         $git->commit('message')->shouldBeCalled();
         $git->push('origin new-branch')->shouldBeCalled();
         

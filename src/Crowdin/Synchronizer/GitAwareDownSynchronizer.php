@@ -63,7 +63,7 @@ class GitAwareDownSynchronizer implements SynchronizerInterface
         $this->git->assertRemoteExists('origin');
 
         $this->git->checkout('-b ' . $this->headBranch->getName());
-        $this->git->add('.');
+        $this->git->add('. --all');
         $this->git->commit($this->options['message']);
         $this->git->push('origin ' . $this->headBranch->getName());
     }
