@@ -19,6 +19,11 @@ final class Translation implements TranslationInterface
     private $localPath;
 
     /**
+     * @var string|null
+     */
+    private $exportPattern;
+
+    /**
      * @param string $crowdinPath
      * @param string|null $localPath
      */
@@ -42,5 +47,21 @@ final class Translation implements TranslationInterface
     public function getLocalPath()
     {
         return $this->localPath;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExportPattern($exportPattern)
+    {
+        $this->exportPattern = $exportPattern;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExportPattern()
+    {
+        return $this->exportPattern;
     }
 }

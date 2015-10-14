@@ -73,4 +73,12 @@ class ZipArchive implements ArchiveInterface
 
         $this->zip->extractTo($extractPath, $filesToExtract);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function copyFile($fromPath, $toPath)
+    {
+        return file_put_contents($toPath, @file_get_contents(sprintf('zip://%s#%s', $this->path, $fromPath)));
+    }
 }

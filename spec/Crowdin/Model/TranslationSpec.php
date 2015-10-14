@@ -40,4 +40,12 @@ class TranslationSpec extends ObjectBehavior
         $this->getCrowdinPath()->shouldReturn('CrowdinPath');
         $this->getLocalPath()->shouldReturn('LocalPath');
     }
+
+    function it_has_export_pattern()
+    {
+        $this->getExportPattern()->shouldReturn(null);
+
+        $this->setExportPattern('ExportPattern');
+        $this->getExportPattern()->shouldReturn('ExportPattern');
+    }
 }

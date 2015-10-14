@@ -49,8 +49,9 @@ class SparingSynchronizationSchedulerSpec extends ObjectBehavior
 
         $translation->getLocalPath()->willReturn('translations/second.en.yml');
         $translation->getCrowdinPath()->willReturn('second.en.yml');
+        $translation->getExportPattern()->willReturn('ExportPattern');
 
-        $addFirstFile->addTranslation('translations/second.en.yml', 'second.en.yml')->shouldBeCalled();
+        $addFirstFile->addTranslation('translations/second.en.yml', 'second.en.yml', 'ExportPattern')->shouldBeCalled();
         $addFirstFile->getTranslations()->willReturn([$translation]);
 
         $this->schedule($localTranslationProvider, $crowdinTranslationProvider)->shouldReturn([$addFirstFile]);
@@ -73,8 +74,9 @@ class SparingSynchronizationSchedulerSpec extends ObjectBehavior
 
         $translation->getLocalPath()->willReturn('translations/second.en.yml');
         $translation->getCrowdinPath()->willReturn('second.en.yml');
+        $translation->getExportPattern()->willReturn('ExportPattern');
 
-        $updateFirstFile->addTranslation('translations/second.en.yml', 'second.en.yml')->shouldBeCalled();
+        $updateFirstFile->addTranslation('translations/second.en.yml', 'second.en.yml', 'ExportPattern')->shouldBeCalled();
         $updateFirstFile->getTranslations()->willReturn([$translation]);
 
         $this->schedule($localTranslationProvider, $crowdinTranslationProvider)->shouldReturn([$updateFirstFile]);
@@ -102,16 +104,18 @@ class SparingSynchronizationSchedulerSpec extends ObjectBehavior
 
         $addTranslation->getLocalPath()->willReturn('translations/add-second.en.yml');
         $addTranslation->getCrowdinPath()->willReturn('add-second.en.yml');
+        $addTranslation->getExportPattern()->willReturn('ExportPattern');
 
-        $addFirstFile->addTranslation('translations/add-second.en.yml', 'add-second.en.yml')->shouldBeCalled();
+        $addFirstFile->addTranslation('translations/add-second.en.yml', 'add-second.en.yml', 'ExportPattern')->shouldBeCalled();
         $addFirstFile->getTranslations()->willReturn([$addTranslation]);
 
         $updateSecondFile->getTranslations()->willReturn([$updateTranslation]);
 
         $updateTranslation->getLocalPath()->willReturn('translations/update-second.en.yml');
         $updateTranslation->getCrowdinPath()->willReturn('update-second.en.yml');
+        $updateTranslation->getExportPattern()->willReturn('ExportPattern');
 
-        $updateFirstFile->addTranslation('translations/update-second.en.yml', 'update-second.en.yml')->shouldBeCalled();
+        $updateFirstFile->addTranslation('translations/update-second.en.yml', 'update-second.en.yml', 'ExportPattern')->shouldBeCalled();
         $updateFirstFile->getTranslations()->willReturn([$updateTranslation]);
 
         $this->schedule($localTranslationProvider, $crowdinTranslationProvider)->shouldReturn([$addFirstFile, $updateFirstFile]);
@@ -141,9 +145,10 @@ class SparingSynchronizationSchedulerSpec extends ObjectBehavior
         $mergedAddFile->getTranslations()->willReturn([$mergedTranslation]);
         $mergedTranslation->getLocalPath()->willReturn('translations/messages.en.yml');
         $mergedTranslation->getCrowdinPath()->willReturn('messages.en.yml');
+        $mergedTranslation->getExportPattern()->willReturn('ExportPattern');
 
-        $addTwentyFiles->addTranslation('translations/messages.en.yml', 'messages.en.yml')->shouldBeCalledTimes(19);
-        $addFiveFiles->addTranslation('translations/messages.en.yml', 'messages.en.yml')->shouldBeCalledTimes(4);
+        $addTwentyFiles->addTranslation('translations/messages.en.yml', 'messages.en.yml', 'ExportPattern')->shouldBeCalledTimes(19);
+        $addFiveFiles->addTranslation('translations/messages.en.yml', 'messages.en.yml', 'ExportPattern')->shouldBeCalledTimes(4);
 
         $addTwentyFiles->getTranslations()->willReturn([$mergedTranslation]);
         $addFiveFiles->getTranslations()->willReturn([$mergedTranslation]);
@@ -178,9 +183,10 @@ class SparingSynchronizationSchedulerSpec extends ObjectBehavior
         $mergedUpdateFile->getTranslations()->willReturn([$mergedTranslation]);
         $mergedTranslation->getLocalPath()->willReturn('translations/messages.en.yml');
         $mergedTranslation->getCrowdinPath()->willReturn('messages.en.yml');
+        $mergedTranslation->getExportPattern()->willReturn('ExportPattern');
 
-        $updateTwentyFiles->addTranslation('translations/messages.en.yml', 'messages.en.yml')->shouldBeCalledTimes(19);
-        $updateFiveFiles->addTranslation('translations/messages.en.yml', 'messages.en.yml')->shouldBeCalledTimes(4);
+        $updateTwentyFiles->addTranslation('translations/messages.en.yml', 'messages.en.yml', 'ExportPattern')->shouldBeCalledTimes(19);
+        $updateFiveFiles->addTranslation('translations/messages.en.yml', 'messages.en.yml', 'ExportPattern')->shouldBeCalledTimes(4);
 
         $updateTwentyFiles->getTranslations()->willReturn([$mergedTranslation]);
         $updateFiveFiles->getTranslations()->willReturn([$mergedTranslation]);

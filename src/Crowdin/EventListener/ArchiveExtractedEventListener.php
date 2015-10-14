@@ -14,16 +14,14 @@ abstract class ArchiveExtractedEventListener
      */
     public function apply(ArchiveExtractedEvent $archiveExtractedEvent)
     {
-        $files = $archiveExtractedEvent->getArchive()->getFiles();
+        $files = $archiveExtractedEvent->getFiles();
 
         foreach ($files as $file) {
-            $realpath = $archiveExtractedEvent->getProjectPath() . '/' . $file;
-
-            if (!is_file($realpath)) {
+            if (!is_file($file)) {
                 continue;
             }
 
-            $this->doApply($realpath);
+            $this->doApply($file);
         }
     }
 

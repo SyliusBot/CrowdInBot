@@ -11,31 +11,23 @@ use Symfony\Component\EventDispatcher\Event;
 class ArchiveExtractedEvent extends Event
 {
     /**
-     * @var ArchiveInterface
-     */
-    protected $archive;
-
-    /**
      * @var string
      */
     private $projectPath;
 
     /**
-     * @param ArchiveInterface $archive
-     * @param string $projectPath
+     * @var string[]
      */
-    public function __construct(ArchiveInterface $archive, $projectPath)
-    {
-        $this->archive = $archive;
-        $this->projectPath = $projectPath;
-    }
+    private $files;
 
     /**
-     * @return ArchiveInterface
+     * @param string $projectPath
+     * @param string[] $files
      */
-    public function getArchive()
+    public function __construct($projectPath, array $files = [])
     {
-        return $this->archive;
+        $this->projectPath = $projectPath;
+        $this->files = $files;
     }
 
     /**
@@ -44,5 +36,13 @@ class ArchiveExtractedEvent extends Event
     public function getProjectPath()
     {
         return $this->projectPath;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 }

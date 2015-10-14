@@ -33,6 +33,7 @@ class TranslationFactorySpec extends ObjectBehavior
     {
         $translation->getCrowdinPath()->willReturn('CrowdinPath');
         $translation->getLocalPath()->willReturn(null);
+        $translation->getExportPattern()->willReturn(null);
 
         $this->createFromCrowdinPath('CrowdinPath')->shouldBeSameAs($translation);
     }
@@ -41,8 +42,10 @@ class TranslationFactorySpec extends ObjectBehavior
     {
         $translation->getCrowdinPath()->willReturn('CrowdinPath');
         $translation->getLocalPath()->willReturn('LocalPath');
+        $translation->getExportPattern()->willReturn('ExportPattern');
 
         $translationPathTransformer->transformLocalPathToCrowdinPath('LocalPath')->willReturn('CrowdinPath');
+        $translationPathTransformer->transformCrowdinPathToLocalPath('CrowdinPath')->willReturn('ExportPattern/translation.yml');
 
         $this->createFromLocalPath('LocalPath')->shouldBeSameAs($translation);
     }
@@ -54,6 +57,7 @@ class TranslationFactorySpec extends ObjectBehavior
                 return null !== $subject
                     && $subject->getCrowdinPath() === $expected->getCrowdinPath()
                     && $subject->getLocalPath() === $expected->getLocalPath()
+                    && $subject->getExportPattern() === $expected->getExportPattern()
                 ;
             }
         ];

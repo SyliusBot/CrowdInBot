@@ -30,7 +30,12 @@ final class TranslationFactory implements TranslationFactoryInterface
     {
         $crowdinPath = $this->translationPathTransformer->transformLocalPathToCrowdinPath($localPath);
 
-        return new Translation($crowdinPath, $localPath);
+        $exportPattern = dirname($this->translationPathTransformer->transformCrowdinPathToLocalPath($crowdinPath));
+
+        $translation = new Translation($crowdinPath, $localPath);
+        $translation->setExportPattern($exportPattern);
+
+        return $translation;
     }
 
     /**

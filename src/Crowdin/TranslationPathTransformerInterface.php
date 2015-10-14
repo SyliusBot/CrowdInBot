@@ -18,10 +18,11 @@ interface TranslationPathTransformerInterface
 
     /**
      * @param string $crowdinPath
+     * @param string|null $locale
      *
      * @return string
      *
      * @throws \InvalidArgumentException If transformation fails
      */
-    public function transformCrowdinPathToLocalPath($crowdinPath);
+    public function transformCrowdinPathToLocalPath($crowdinPath, $locale = null);
 }

@@ -18,6 +18,11 @@ final class TranslationSynchronizationScheduler implements SynchronizationSchedu
     private $crowdinClient;
 
     /**
+     * @var string
+     */
+    private $exportPattern;
+
+    /**
      * @var TranslationInterface[]
      */
     private $translationsToAdd = [];
@@ -63,7 +68,7 @@ final class TranslationSynchronizationScheduler implements SynchronizationSchedu
         foreach ($this->translationsToAdd as $translation) {
             /** @var Api\AddFile $addTranslation */
             $addTranslation = $this->crowdinClient->api('add-file');
-            $addTranslation->addTranslation($translation->getLocalPath(), $translation->getCrowdinPath());
+            $addTranslation->addTranslation($translation->getLocalPath(), $translation->getCrowdinPath(), $translation->getExportPattern());
 
             $commands[] = $addTranslation;
         }
@@ -71,7 +76,7 @@ final class TranslationSynchronizationScheduler implements SynchronizationSchedu
         foreach ($this->translationsToUpdate as $translation) {
             /** @var Api\UpdateFile $updateTranslation */
             $updateTranslation = $this->crowdinClient->api('update-file');
-            $updateTranslation->addTranslation($translation->getLocalPath(), $translation->getCrowdinPath());
+            $updateTranslation->addTranslation($translation->getLocalPath(), $translation->getCrowdinPath(), $translation->getExportPattern());
 
             $commands[] = $updateTranslation;
         }

@@ -19,12 +19,14 @@
         <parameter key="sylius_bot.crowdin.listener.archive_extracted.clean.class">SyliusBot\Crowdin\EventListener\Yaml\Clean</parameter>
         <parameter key="sylius_bot.crowdin.listener.archive_extracted.add_header.class">SyliusBot\Crowdin\EventListener\Yaml\AddHeader</parameter>
         <parameter key="sylius_bot.crowdin.listener.archive_extracted.delete_if_empty.class">SyliusBot\Crowdin\EventListener\Yaml\DeleteIfEmpty</parameter>
+        <parameter key="sylius_bot.crowdin.listener.archive_extracted.delete_dead_translations.class">SyliusBot\Crowdin\EventListener\DeleteDeadTranslations</parameter>
 
         <parameter key="sylius_bot.crowdin.translation_provider.local.class">SyliusBot\Crowdin\LocalTranslationProvider</parameter>
         <parameter key="sylius_bot.crowdin.translation_provider.crowdin.class">SyliusBot\Crowdin\CrowdinTranslationProvider</parameter>
 
         <parameter key="sylius_bot.crowdin.project_information_parser.class">SyliusBot\Crowdin\ProjectInformationParser</parameter>
         <parameter key="sylius_bot.crowdin.translation_path_transformer.class">SyliusBot\Crowdin\TranslationPathTransformer</parameter>
+        <parameter key="sylius_bot.crowdin.translation_path_transformer.normalizing.class">SyliusBot\Crowdin\NormalizingTranslationPathTransformer</parameter>
         <parameter key="sylius_bot.crowdin.factory.translation.class">SyliusBot\Crowdin\Factory\TranslationFactory</parameter>
         <parameter key="sylius_bot.crowdin.translation_archive_provider.class">SyliusBot\Crowdin\TranslationArchiveProvider</parameter>
         <parameter key="sylius_bot.crowdin.synchronizer.git.class">SyliusBot\Crowdin\Synchronizer\GitSynchronizer</parameter>
@@ -90,14 +92,19 @@
         </service>
 
         <service id="sylius_bot.crowdin.listener.archive_extracted.clean" class="%sylius_bot.crowdin.listener.archive_extracted.clean.class%">
-            <tag name="kernel.event_listener" event="sylius_bot.crowdin.archive_extracted" method="apply" />
+            <tag name="kernel.event_listener" event="sylius_bot.crowdin.archive_extracted" method="apply" priority="128"/>
         </service>
         <service id="sylius_bot.crowdin.listener.archive_extracted.add_header" class="%sylius_bot.crowdin.listener.archive_extracted.add_header.class%">
             <argument>%sylius_bot.crowdin.translation_header%</argument>
-            <tag name="kernel.event_listener" event="sylius_bot.crowdin.archive_extracted" method="apply" />
+            <tag name="kernel.event_listener" event="sylius_bot.crowdin.archive_extracted" method="apply" priority="-256" />
         </service>
         <service id="sylius_bot.crowdin.listener.archive_extracted.delete_if_empty" class="%sylius_bot.crowdin.listener.archive_extracted.delete_if_empty.class%">
             <tag name="kernel.event_listener" event="sylius_bot.crowdin.archive_extracted" method="apply" priority="-1024" />
+        </service>
+        <service id="sylius_bot.crowdin.listener.archive_extracted.delete_dead_translations" class="%sylius_bot.crowdin.listener.archive_extracted.delete_dead_translations.class%">
+            <argument type="service" id="sylius_bot.crowdin.translation_path_transformer" />
+            <argument>%sylius_bot.project.default_locale%</argument>
+            <tag name="kernel.event_listener" event="sylius_bot.crowdin.archive_extracted" method="apply" priority="-512" />
         </service>
 
         <service id="sylius_bot.crowdin.translation_provider.local" class="%sylius_bot.crowdin.translation_provider.local.class%" public="false">
@@ -116,6 +123,10 @@
         <service id="sylius_bot.crowdin.translation_path_transformer" class="%sylius_bot.crowdin.translation_path_transformer.class%" public="false">
             <argument>%sylius_bot.project.default_locale%</argument>
         </service>
+        <service id="sylius_bot.crowdin.translation_path_transformer.normalizing" class="%sylius_bot.crowdin.translation_path_transformer.normalizing.class%" decorates="sylius_bot.crowdin.translation_path_transformer" public="false">
+            <argument type="service" id="sylius_bot.crowdin.translation_path_transformer.normalizing.inner" />
+            <argument>%sylius_bot.project.locale_replacements%</argument>
+        </service>
         <service id="sylius_bot.crowdin.factory.translation" class="%sylius_bot.crowdin.factory.translation.class%" public="false">
             <argument type="service" id="sylius_bot.crowdin.translation_path_transformer" />
         </service>
@@ -130,6 +141,7 @@
         <service id="sylius_bot.crowdin.synchronizer.down" class="%sylius_bot.crowdin.synchronizer.down.class%" public="false">
             <argument type="service" id="sylius_bot.crowdin.synchronizer.git" />
             <argument type="service" id="sylius_bot.crowdin.translation_archive_provider" />
+            <argument type="service" id="sylius_bot.crowdin.translation_path_transformer" />
             <argument type="service" id="event_dispatcher" />
             <argument>%sylius_bot.project.path%</argument>
         </service>

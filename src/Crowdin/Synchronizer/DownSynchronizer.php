@@ -6,6 +6,7 @@ use Jjanvier\Library\Crowdin\Synchronizer\SynchronizerInterface;
 use SyliusBot\Crowdin\CrowdinEvents;
 use SyliusBot\Crowdin\Event\ArchiveExtractedEvent;
 use SyliusBot\Crowdin\TranslationArchiveProviderInterface;
+use SyliusBot\Crowdin\TranslationPathTransformerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -24,6 +25,11 @@ final class DownSynchronizer implements SynchronizerInterface
     private $translationArchiveProvider;
 
     /**
+     * @var TranslationPathTransformerInterface
+     */
+    private $translationPathTransformer;
+
+    /**
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
@@ -36,17 +42,20 @@ final class DownSynchronizer implements SynchronizerInterface
     /**
      * @param SynchronizerInterface $gitSynchronizer
      * @param TranslationArchiveProviderInterface $translationArchiveProvider
+     * @param TranslationPathTransformerInterface $translationPathTransformer
      * @param EventDispatcherInterface $eventDispatcher
      * @param string $projectPath
      */
     public function __construct(
         SynchronizerInterface $gitSynchronizer,
         TranslationArchiveProviderInterface $translationArchiveProvider,
+        TranslationPathTransformerInterface $translationPathTransformer,
         EventDispatcherInterface $eventDispatcher,
         $projectPath
     ) {
         $this->gitSynchronizer = $gitSynchronizer;
         $this->translationArchiveProvider = $translationArchiveProvider;
+        $this->translationPathTransformer = $translationPathTransformer;
         $this->eventDispatcher = $eventDispatcher;
         $this->projectPath = $projectPath;
     }
@@ -58,12 +67,22 @@ final class DownSynchronizer implements SynchronizerInterface
     {
         $this->gitSynchronizer->synchronize();
 
+        $files = [];
         $translationsArchive = $this->translationArchiveProvider->getArchive();
-        $translationsArchive->extractDirectoryTo('src', $this->projectPath);
+        foreach ($translationsArchive->getFiles() as $file) {
+            try {
+                $localPath = $this->projectPath . '/' . $this->translationPathTransformer->transformCrowdinPathToLocalPath($file);
+            } catch (\InvalidArgumentException $exception) {
+                continue;
+            }
+
+            $translationsArchive->copyFile($file, $localPath);
+            $files[] = $localPath;
+        }
 
         $this->eventDispatcher->dispatch(
             CrowdinEvents::ARCHIVE_EXTRACTED,
-            new ArchiveExtractedEvent($translationsArchive, $this->projectPath)
+            new ArchiveExtractedEvent($this->projectPath, $files)
         );
     }
 }

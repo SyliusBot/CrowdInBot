@@ -16,4 +16,14 @@ interface TranslationInterface
      * @return string|null
      */
     public function getLocalPath();
+
+    /**
+     * @param string $exportPattern
+     */
+    public function setExportPattern($exportPattern);
+
+    /**
+     * @return string
+     */
+    public function getExportPattern();
 }

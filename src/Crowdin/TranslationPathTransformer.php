@@ -40,10 +40,10 @@ final class TranslationPathTransformer implements TranslationPathTransformerInte
     /**
      * {@inheritdoc}
      */
-    public function transformCrowdinPathToLocalPath($crowdinPath)
+    public function transformCrowdinPathToLocalPath($crowdinPath, $locale = null)
     {
         // Write-only regexp, don't touch until it crashes :)
-        $matched = preg_match('/^\/?(?:(?P<language>[a-zA-z\-_]{2,5})\/)?(?P<bundle>.+Bundle)\/(?P<path>.+\.[a-zA-Z_]+\..+)$/', $crowdinPath, $matches);
+        $matched = preg_match('/^\/?(?:(?P<locale>[a-zA-z\-_]{2,5})\/)?(?P<bundle>.+Bundle)\/(?P<path>.+\.[a-zA-Z_]+\..+)$/', $crowdinPath, $matches);
 
         if (!$matched) {
             throw new \InvalidArgumentException(sprintf(
@@ -52,8 +52,12 @@ final class TranslationPathTransformer implements TranslationPathTransformerInte
             ));
         }
 
-        $language = !empty($matches['language']) ? str_replace('-', '_', $matches['language']) : $this->defaultLocale;
-        $path = str_replace('.' . $this->defaultLocale . '.',  '.' . $language . '.', $matches['path']);
+        if (null === $locale) {
+            $locale = $this->defaultLocale;
+        }
+
+        $locale = !empty($matches['locale']) ? str_replace('-', '_', $matches['locale']) : $locale;
+        $path = str_replace('.' . $this->defaultLocale . '.',  '.' . $locale . '.', $matches['path']);
 
         return sprintf('src/Sylius/Bundle/%s/Resources/translations/%s', $matches['bundle'], $path);
     }

@@ -27,4 +27,10 @@ interface ArchiveInterface
      * @param string $extractPath
      */
     public function extractDirectoryTo($directory, $extractPath);
+
+    /**
+     * @param string $fromPath
+     * @param string $toPath
+     */
+    public function copyFile($fromPath, $toPath);
 }

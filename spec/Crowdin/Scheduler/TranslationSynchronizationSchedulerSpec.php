@@ -54,15 +54,17 @@ class TranslationSynchronizationSchedulerSpec extends ObjectBehavior
 
         $translationToAdd->getLocalPath()->willReturn('src/FooBundle/translations/add.en.yml');
         $translationToAdd->getCrowdinPath()->willReturn('/Foo/add.en.yml');
+        $translationToAdd->getExportPattern()->willReturn('AddExportPattern');
 
         $crowdinClient->api('add-file')->willReturn($addFile);
-        $addFile->addTranslation('src/FooBundle/translations/add.en.yml', '/Foo/add.en.yml')->shouldBeCalled();
+        $addFile->addTranslation('src/FooBundle/translations/add.en.yml', '/Foo/add.en.yml', 'AddExportPattern')->shouldBeCalled();
 
         $translationToUpdate->getLocalPath()->willReturn('src/FooBundle/translations/update.en.yml');
         $translationToUpdate->getCrowdinPath()->willReturn('/Foo/update.en.yml');
+        $translationToUpdate->getExportPattern()->willReturn('UpdateExportPattern');
 
         $crowdinClient->api('update-file')->willReturn($updateFile);
-        $updateFile->addTranslation('src/FooBundle/translations/update.en.yml', '/Foo/update.en.yml')->shouldBeCalled();
+        $updateFile->addTranslation('src/FooBundle/translations/update.en.yml', '/Foo/update.en.yml', 'UpdateExportPattern')->shouldBeCalled();
 
         $translationToDelete->getCrowdinPath()->willReturn('/Foo/delete.en.yml');
 

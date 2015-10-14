@@ -9,6 +9,7 @@ use SyliusBot\ArchiveInterface;
 use SyliusBot\Crowdin\CrowdinEvents;
 use SyliusBot\Crowdin\Event\ArchiveExtractedEvent;
 use SyliusBot\Crowdin\TranslationArchiveProviderInterface;
+use SyliusBot\Crowdin\TranslationPathTransformerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -21,10 +22,10 @@ class DownSynchronizerSpec extends ObjectBehavior
     function let(
         SynchronizerInterface $gitSynchronizer,
         TranslationArchiveProviderInterface $translationArchiveProvider,
-        EventDispatcherInterface $eventDispatcher,
-        $projectPath = 'sources'
+        TranslationPathTransformerInterface $translationPathTransformer,
+        EventDispatcherInterface $eventDispatcher
     ) {
-        $this->beConstructedWith($gitSynchronizer, $translationArchiveProvider, $eventDispatcher, $projectPath);
+        $this->beConstructedWith($gitSynchronizer, $translationArchiveProvider, $translationPathTransformer, $eventDispatcher, 'sources');
     }
 
     function it_is_initializable()
@@ -40,14 +41,18 @@ class DownSynchronizerSpec extends ObjectBehavior
     function it_extracts_translation_archive_to_current_project(
         SynchronizerInterface $gitSynchronizer,
         TranslationArchiveProviderInterface $translationArchiveProvider,
+        TranslationPathTransformerInterface $translationPathTransformer,
         EventDispatcherInterface $eventDispatcher,
-        $projectPath,
         ArchiveInterface $archive
     ) {
         $gitSynchronizer->synchronize()->shouldBeCalled();
 
         $translationArchiveProvider->getArchive()->willReturn($archive);
-        $archive->extractDirectoryTo('src', $projectPath)->shouldBeCalled();
+        $archive->getFiles()->willReturn(['crowdin.en.yml']);
+
+        $translationPathTransformer->transformCrowdinPathToLocalPath('crowdin.en.yml')->willReturn('local.en.yml');
+
+        $archive->copyFile('crowdin.en.yml', 'sources/local.en.yml')->shouldBeCalled();
 
         $eventDispatcher->dispatch(CrowdinEvents::ARCHIVE_EXTRACTED, Argument::type(ArchiveExtractedEvent::class))->shouldBeCalled();
 

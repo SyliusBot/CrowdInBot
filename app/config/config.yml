@@ -73,3 +73,7 @@ sylius_bot:
             organization: SyliusBot
             repository: Sylius
             branch: crowdin-translations
+        locale_replacements:
+            es_ES: es
+            sv_SE: sv
+            pt_PT: pt

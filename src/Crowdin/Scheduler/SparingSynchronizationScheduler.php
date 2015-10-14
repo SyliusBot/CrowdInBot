@@ -85,7 +85,8 @@ final class SparingSynchronizationScheduler implements SynchronizationSchedulerI
 
             $this->currentMainCommands[$commandClass]->addTranslation(
                 $translation->getLocalPath(),
-                $translation->getCrowdinPath()
+                $translation->getCrowdinPath(),
+                $translation->getExportPattern()
             );
 
             ++$this->currentMainCommandsCounter[$commandClass];
