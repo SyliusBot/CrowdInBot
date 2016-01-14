@@ -13,14 +13,21 @@ class GithubHookController extends Controller
 {
     public function hookAction(Request $request)
     {
-        $payload = json_decode($request->getContent(), true);
-
-        if (!isset($payload['hook']['config']['secret'])) {
-            throw $this->createNotFoundException();
+        if (!$request->headers->has('X-Hub-Signature')) {
+            throw $this->createAccessDeniedException('No X-Hub-Signature');
         }
 
-        if ($this->getParameter('github_webhook_secret') !== $payload['hook']['config']['secret']) {
-            throw $this->createAccessDeniedException();
+        $signature = $request->headers->get('X-Hub-Signature');
+        $method = explode('=', $signature, 2)[0];
+
+        if (!in_array($method, hash_algos(), true)) {
+            throw $this->createAccessDeniedException('Not supported algo');
+        }
+
+        $ourSignature = $method . '='. hash_hmac($method, $request->getContent(), $this->getParameter('github_webhook_secret'));
+
+        if (true !== hash_equals($ourSignature, $signature)) {
+            throw $this->createAccessDeniedException('Invalid signature');
         }
 
         $this->get('sylius_bot.crowdin.synchronizer.up')->synchronize();
