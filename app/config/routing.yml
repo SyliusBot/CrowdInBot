@@ -1,3 +1,4 @@
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+github_hook:
+    path: /github-hook
+    defaults:
+        _controller: SyliusBotCrowdinBundle:GithubHook:hook

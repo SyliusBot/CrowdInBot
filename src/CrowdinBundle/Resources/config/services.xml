@@ -182,7 +182,7 @@
             <argument type="service" id="sylius_bot.crowdin.synchronization_scheduler.ordering.inner" />
         </service>
 
-        <service id="sylius_bot.crowdin.synchronizer.up" class="%sylius_bot.crowdin.synchronizer.up.class%" public="false">
+        <service id="sylius_bot.crowdin.synchronizer.up" class="%sylius_bot.crowdin.synchronizer.up.class%">
             <argument type="service" id="sylius_bot.crowdin.synchronizer.git" />
             <argument type="service" id="sylius_bot.crowdin.translation_provider.local" />
             <argument type="service" id="sylius_bot.crowdin.translation_provider.crowdin" />
