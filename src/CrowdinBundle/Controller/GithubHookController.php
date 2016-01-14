@@ -31,6 +31,8 @@ class GithubHookController extends Controller
             throw $this->createAccessDeniedException('Invalid signature');
         }
 
+        $payload = json_decode($request->getContent(), true);
+
         if (isset($payload['action']) && 'push' === $payload['action']) {
             $this->get('sylius_bot.crowdin.synchronizer.up')->synchronize();
         }
