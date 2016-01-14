@@ -5,6 +5,7 @@ namespace SyliusBot\CrowdinBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Util\StringUtils;
 
 /**
  * @author Kamil Kokot <kamil.kokot@lakion.com>
@@ -26,7 +27,7 @@ class GithubHookController extends Controller
 
         $ourSignature = $method . '='. hash_hmac($method, $request->getContent(), $this->getParameter('github_webhook_secret'));
 
-        if (true !== hash_equals($ourSignature, $signature)) {
+        if (true !== StringUtils::equals($ourSignature, $signature)) {
             throw $this->createAccessDeniedException('Invalid signature');
         }
 
