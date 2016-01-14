@@ -10,3 +10,5 @@
 /vendor/
 /web/bundles/
 /sources/
+
+phpspec.yml
