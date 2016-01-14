@@ -10,7 +10,9 @@ class AppKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
-            new SyliusBot\CrowdinBundle\SyliusBotBundle(),
+
+            new SyliusBot\CrowdinBundle\SyliusBotCrowdinBundle(),
+            new SyliusBot\TranslationTransformerBundle\SyliusBotTranslationTransformerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

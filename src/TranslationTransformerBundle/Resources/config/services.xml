@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sylius_bot.finder_factory.class">SyliusBot\FinderFactory</parameter>
+        <parameter key="sylius_bot.translation_finder.class">SyliusBot\TranslationFinder</parameter>
+
+        <parameter key="sylius_bot.translation_transformer.translation_entry_change.factory.class">SyliusBot\TranslationTransformer\Factory\TranslationEntryChangeFactory</parameter>
+        <parameter key="sylius_bot.translation_transformer.translation_entry_collection.factory.class">SyliusBot\TranslationTransformer\Factory\TranslationEntryCollectionFactory</parameter>
+        <parameter key="sylius_bot.translation_transformer.translation_entry.factory.class">SyliusBot\TranslationTransformer\Factory\TranslationEntryFactory</parameter>
+
+        <parameter key="sylius_bot.translation_transformer.translation_entry_collection.provider.class">SyliusBot\TranslationTransformer\TranslationEntryCollectionProvider</parameter>
+        <parameter key="sylius_bot.translation_transformer.translation_manipulator.class">SyliusBot\TranslationTransformer\TranslationManipulator</parameter>
+
+        <parameter key="sylius_bot.translation_transformer.message_catalogue.factory.class">SyliusBot\TranslationTransformer\MessageCatalogueFactory</parameter>
+        <parameter key="sylius_bot.translation_transformer.message_catalogue.provider.class">SyliusBot\TranslationTransformer\MessageCatalogueProvider</parameter>
+
+        <parameter key="sylius_bot.translation_transformer.translation_manipulator.interpunction_cleaner.class">SyliusBot\TranslationTransformer\Manipulator\InterpunctionCleanerManipulator</parameter>
+        <parameter key="sylius_bot.translation_transformer.translation_manipulator.key_equals_value.class">SyliusBot\TranslationTransformer\Manipulator\KeyEqualsValueManipulator</parameter>
+
+        <parameter key="sylius_bot.translation_transformer.handler.entry_collection_handler.class">SyliusBot\TranslationTransformer\Handler\TranslationEntryCollectionHandler</parameter>
+
+        <parameter key="sylius_bot.translation_transformer.command.dump.class">SyliusBot\TranslationTransformerBundle\Command\DumpCommand</parameter>
+    </parameters>
+
+    <services>
+        <service id="sylius_bot.finder_factory" class="%sylius_bot.finder_factory.class%" />
+        <service id="sylius_bot.translation_finder" class="%sylius_bot.translation_finder.class%" public="false">
+            <argument type="service" id="sylius_bot.finder_factory" />
+            <argument>%sylius_bot_transformer.project.path%</argument>
+            <argument>%sylius_bot_transformer.project.search_path%</argument>
+        </service>
+
+        <service id="sylius_bot.translation_transformer.translation_entry_change.factory" class="%sylius_bot.translation_transformer.translation_entry_change.factory.class%" />
+        <service id="sylius_bot.translation_transformer.translation_entry_collection.factory" class="%sylius_bot.translation_transformer.translation_entry_collection.factory.class%" />
+        <service id="sylius_bot.translation_transformer.translation_entry.factory" class="%sylius_bot.translation_transformer.translation_entry.factory.class%" />
+
+        <service id="sylius_bot.translation_transformer.translation_entry_collection.provider" class="%sylius_bot.translation_transformer.translation_entry_collection.provider.class%">
+            <argument type="service" id="sylius_bot.translation_transformer.translation_entry_collection.factory" />
+            <argument type="service" id="sylius_bot.translation_transformer.translation_entry.factory" />
+        </service>
+        <service id="sylius_bot.translation_transformer.translation_manipulator" class="%sylius_bot.translation_transformer.translation_manipulator.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="sylius_bot.translation_transformer.message_catalogue.factory" class="%sylius_bot.translation_transformer.message_catalogue.factory.class%" public="false" />
+        <service id="sylius_bot.translation_transformer.message_catalogue.provider" class="%sylius_bot.translation_transformer.message_catalogue.provider.class%" public="false">
+            <argument type="service" id="sylius_bot.translation_finder" />
+            <argument type="service" id="sylius_bot.translation_transformer.message_catalogue.factory" />
+            <argument type="service" id="translation.loader.yml" />
+            <argument>%sylius_bot_transformer.project.default_locale%</argument>
+        </service>
+
+        <service id="sylius_bot.translation_transformer.translation_manipulator.interpunction_cleaner" class="%sylius_bot.translation_transformer.translation_manipulator.interpunction_cleaner.class%">
+            <argument type="service" id="sylius_bot.translation_transformer.translation_entry.factory" />
+            <argument type="service" id="sylius_bot.translation_transformer.translation_entry_change.factory" />
+            <tag name="sylius_bot.translation_transformer.translation_manipulator" priority="1024" />
+        </service>
+        
+        <service id="sylius_bot.translation_transformer.translation_manipulator.key_equals_value" class="%sylius_bot.translation_transformer.translation_manipulator.key_equals_value.class%">
+            <argument type="service" id="sylius_bot.translation_transformer.translation_entry.factory" />
+            <argument type="service" id="sylius_bot.translation_transformer.translation_entry_change.factory" />
+            <tag name="sylius_bot.translation_transformer.translation_manipulator" />
+        </service>
+
+        <service id="sylius_bot.translation_transformer.handler.entry_collection_handler" class="%sylius_bot.translation_transformer.handler.entry_collection_handler.class%">
+            <tag name="kernel.event_listener" event="sylius_bot.translation_transformer.entry_change" method="modifyTranslationEntryCollectionDueToChanges" />
+        </service>
+
+        <service id="sylius_bot.translation_transformer.command.dump" class="%sylius_bot.translation_transformer.command.dump.class%">
+            <argument type="service" id="sylius_bot.translation_transformer.message_catalogue.provider" />
+            <argument type="service" id="sylius_bot.translation_transformer.translation_entry_collection.provider" />
+            <argument type="service" id="sylius_bot.translation_transformer.translation_manipulator" />
+            <tag name="console.command" />
+        </service>
+    </services>
+</container>

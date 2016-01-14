@@ -56,7 +56,7 @@ twig:
 #        origin_branch: master
 #        pr_title: "[CrowdIn] Auto-updated translations"
 
-sylius_bot:
+sylius_bot_crowdin:
     crowdin:
         git:
             message: "[Translations] Updated translations from Crowdin"

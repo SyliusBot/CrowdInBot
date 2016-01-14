@@ -18,13 +18,13 @@ class DownSynchronizerCommand extends Command
     private $downSynchronizer;
 
     /**
-     * @param SynchronizerInterface $downSynchronizer
+     * @param SynchronizerInterface $messageCatalogueProvider
      */
-    public function __construct(SynchronizerInterface $downSynchronizer)
+    public function __construct(SynchronizerInterface $messageCatalogueProvider)
     {
         parent::__construct();
 
-        $this->downSynchronizer = $downSynchronizer;
+        $this->downSynchronizer = $messageCatalogueProvider;
     }
 
     /**
