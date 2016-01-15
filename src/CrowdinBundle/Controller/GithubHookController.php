@@ -33,7 +33,7 @@ class GithubHookController extends Controller
 
         $payload = json_decode($request->getContent(), true);
 
-        if (isset($payload['action']) && 'push' === $payload['action']) {
+        if (isset($payload['ref']) && 'refs/heads/master' === $payload['ref']) {
             $this->get('sylius_bot.crowdin.synchronizer.up')->synchronize();
         }
 
