@@ -72,6 +72,8 @@ final class DownSynchronizer implements SynchronizerInterface
         foreach ($translationsArchive->getFiles() as $file) {
             try {
                 $localPath = $this->projectPath . '/' . $this->translationPathTransformer->transformCrowdinPathToLocalPath($file);
+
+                $this->translationPathTransformer->transformLocalPathToCrowdinPath($localPath);
             } catch (\InvalidArgumentException $exception) {
                 continue;
             }

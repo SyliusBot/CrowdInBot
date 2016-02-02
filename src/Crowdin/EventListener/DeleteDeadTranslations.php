@@ -42,8 +42,8 @@ class DeleteDeadTranslations
         $finder
             ->files()
             ->in($archiveExtractedEvent->getProjectPath())
+            ->path('/.*?Bundle\/Resources\/translations.*?/')
             ->name('*.*.*')
-            ->path('Resources/translations')
         ;
 
         $files = array_map(
@@ -54,8 +54,8 @@ class DeleteDeadTranslations
         );
         foreach ($finder as $file) {
             if (
-                !in_array($this->translationPathTransformer->transformLocalPathToCrowdinPath($file->getRelativePathname()), $files)
-                && false === strpos($file->getRelativePathname(), '.' . $this->defaultLocale . '.')
+                false === strpos($file->getRelativePathname(), '.' . $this->defaultLocale . '.')
+                && !in_array($this->translationPathTransformer->transformLocalPathToCrowdinPath($file->getRelativePathname()), $files, true)
             ) {
                 unlink($file->getPathname());
             }
