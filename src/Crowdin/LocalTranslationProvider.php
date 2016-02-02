@@ -49,6 +49,7 @@ final class LocalTranslationProvider implements TranslationProviderInterface
         $finder
             ->files()
             ->in($this->path)
+            ->path('/.+?Bundle\/Resources\/translations.*?/')
             ->name(sprintf('*.%s.*', $this->defaultLocale))
         ;
 
