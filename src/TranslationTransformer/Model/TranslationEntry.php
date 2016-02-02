@@ -18,13 +18,20 @@ final class TranslationEntry implements TranslationEntryInterface
     private $value;
 
     /**
+     * @var string
+     */
+    private $domain;
+
+    /**
      * @param string $key
      * @param string $value
+     * @param string|null $domain
      */
-    public function __construct($key, $value)
+    public function __construct($key, $value, $domain = null)
     {
         $this->key = $key;
         $this->value = $value;
+        $this->domain = $domain ?: 'messages';
     }
 
     /**
@@ -41,5 +48,13 @@ final class TranslationEntry implements TranslationEntryInterface
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDomain()
+    {
+        return $this->domain;
     }
 }

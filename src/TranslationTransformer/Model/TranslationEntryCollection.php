@@ -33,7 +33,7 @@ class TranslationEntryCollection extends ArrayCollection implements TranslationE
     public function add($value)
     {
         if (!$value instanceof TranslationEntryInterface) {
-            throw new \InvalidArgumentException("");
+            throw new \InvalidArgumentException();
         }
 
         $this->set($value->getKey(), $value);

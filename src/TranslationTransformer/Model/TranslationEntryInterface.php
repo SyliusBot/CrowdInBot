@@ -16,4 +16,9 @@ interface TranslationEntryInterface
      * @return string
      */
     public function getValue();
+
+    /**
+     * @return string
+     */
+    public function getDomain();
 }

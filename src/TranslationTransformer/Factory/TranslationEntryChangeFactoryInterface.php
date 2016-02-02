@@ -17,4 +17,11 @@ interface TranslationEntryChangeFactoryInterface
      * @return TranslationEntryChangeInterface
      */
     public function create(TranslationEntryInterface $oldTranslationEntry, TranslationEntryInterface $newTranslationEntry);
+
+    /**
+     * @param string $string
+     *
+     * @return TranslationEntryChangeInterface
+     */
+    public function createFromString($string);
 }

@@ -57,7 +57,7 @@
         <service id="sylius_bot.translation_transformer.translation_manipulator.interpunction_cleaner" class="%sylius_bot.translation_transformer.translation_manipulator.interpunction_cleaner.class%">
             <argument type="service" id="sylius_bot.translation_transformer.translation_entry.factory" />
             <argument type="service" id="sylius_bot.translation_transformer.translation_entry_change.factory" />
-            <tag name="sylius_bot.translation_transformer.translation_manipulator" priority="1024" />
+            <!--<tag name="sylius_bot.translation_transformer.translation_manipulator" priority="1024" />-->
         </service>
         
         <service id="sylius_bot.translation_transformer.translation_manipulator.key_equals_value" class="%sylius_bot.translation_transformer.translation_manipulator.key_equals_value.class%">

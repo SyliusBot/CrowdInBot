@@ -42,7 +42,7 @@ class InterpunctionCleanerManipulator implements TranslationManipulatorInterface
         $translationEntriesChanges = [];
         foreach ($translationEntryCollection as $translationEntry) {
             $originalValue = $translationEntry->getValue();
-            $cleanedValue = ucfirst(preg_replace('/[:\s]+$/', '', $originalValue));
+            $cleanedValue = ucfirst(preg_replace('/[\.!\?:\s]+$/', '', $originalValue));
 
             if ($originalValue === $cleanedValue) {
                 continue;

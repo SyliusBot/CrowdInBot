@@ -18,7 +18,7 @@ class TranslationEntryCollectionHandler
         $translationEntryCollection = $translationEntryChangeEvent->getTranslationEntryCollection();
         $translationEntryChange = $translationEntryChangeEvent->getTranslationEntryChange();
 
-        $translationEntryCollection->removeElement($translationEntryChange->getOldTranslationEntry());
+        $translationEntryCollection->remove($translationEntryChange->getOldTranslationEntry()->getKey());
         $translationEntryCollection->add($translationEntryChange->getNewTranslationEntry());
     }
 }

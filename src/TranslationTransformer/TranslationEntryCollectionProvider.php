@@ -53,7 +53,7 @@ class TranslationEntryCollectionProvider implements TranslationEntryCollectionPr
     {
         $translationEntries = [];
         foreach ($messageCatalogue->all($domain) as $key => $value) {
-            $translationEntries[] = $this->translationEntryFactory->create($key, $value);
+            $translationEntries[] = $this->translationEntryFactory->create($key, $value, $domain);
         }
 
         return $this->translationEntryCollectionFactory->create($domain, $translationEntries);

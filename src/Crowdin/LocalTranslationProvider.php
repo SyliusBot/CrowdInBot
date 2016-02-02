@@ -54,7 +54,11 @@ final class LocalTranslationProvider implements TranslationProviderInterface
 
         $translations = [];
         foreach ($finder as $file) {
-            $translations[] = $this->translationFactory->createFromLocalPath($file->getPathname());
+            try {
+                $translations[] = $this->translationFactory->createFromLocalPath($file->getPathname());
+            } catch (\InvalidArgumentException $exception) {
+                continue;
+            }
         }
 
         return $translations;

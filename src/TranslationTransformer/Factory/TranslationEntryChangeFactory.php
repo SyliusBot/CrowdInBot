@@ -17,4 +17,22 @@ class TranslationEntryChangeFactory implements TranslationEntryChangeFactoryInte
     {
         return new TranslationEntryChange($oldTranslationEntry, $newTranslationEntry);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createFromString($string) {
+        $translationEntryChangeRegexp = '/^MODIFY (.+) TO (.+)$/';
+
+        if (false === (bool) preg_match($tecr, $string, $matches)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Could not match "%s" by regular expression "%s"',
+                $string,
+                $translationEntryChangeRegexp
+            ));
+        }
+
+
+
+    }
 }

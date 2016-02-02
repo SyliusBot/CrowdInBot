@@ -12,8 +12,16 @@ interface TranslationEntryFactoryInterface
     /**
      * @param string $key
      * @param string $value
+     * @param string|null $domain
      *
      * @return TranslationEntryInterface
      */
-    public function create($key, $value);
+    public function create($key, $value, $domain);
+
+    /**
+     * @param string $string
+     *
+     * @return TranslationEntryInterface
+     */
+    public function createFromString($string);
 }

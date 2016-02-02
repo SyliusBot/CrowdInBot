@@ -60,6 +60,9 @@ sylius_bot_crowdin:
     crowdin:
         git:
             message: "[Translations] Updated translations from Crowdin"
+        github:
+            title: "[AUTO] Updated translations from Crowdin"
+            description: ""
         translation_header: "# This file is part of the Sylius package.\n# (c) Paweł Jędrzejewski\n\n"
         project_id: sylius
         api_key: %crowdin_api_key%
@@ -77,3 +80,7 @@ sylius_bot_crowdin:
             es_ES: es
             sv_SE: sv
             pt_PT: pt
+
+sylius_bot_translation_transformer:
+    project:
+        search_path: src/Sylius/Bundle/WebBundle

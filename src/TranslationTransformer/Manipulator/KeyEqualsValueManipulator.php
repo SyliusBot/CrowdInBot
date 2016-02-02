@@ -61,9 +61,13 @@ class KeyEqualsValueManipulator implements TranslationManipulatorInterface
                 }
 
                 $newTranslationEntry = $this->translationEntryFactory->create(
-                    'sylius.' . str_replace('.', '_', $lastKeyParts),
+                    'sylius.ui.' . str_replace('.', '_', $lastKeyParts),
                     $translationEntry->getValue()
                 );
+
+                if ($newTranslationEntry->getKey() === $translationEntry->getKey()) {
+                    break;
+                }
 
                 $translationEntriesChanges[] = $this->translationEntryChangeFactory->create(
                     $translationEntry,

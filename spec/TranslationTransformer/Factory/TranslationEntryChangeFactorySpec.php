@@ -4,16 +4,24 @@ namespace spec\SyliusBot\TranslationTransformer\Factory;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use SyliusBot\TranslationTransformer\Factory\TranslationEntryChangeFactory;
+use SyliusBot\TranslationTransformer\Factory\TranslationEntryChangeFactoryInterface;
+use SyliusBot\TranslationTransformer\Factory\TranslationEntryFactoryInterface;
 use SyliusBot\TranslationTransformer\Model\TranslationEntryChangeInterface;
 use SyliusBot\TranslationTransformer\Model\TranslationEntryInterface;
 
 /**
- * @mixin \SyliusBot\TranslationTransformer\Factory\TranslationEntryChangeFactory
+ * @mixin TranslationEntryChangeFactory
  *
  * @author Kamil Kokot <kamil.kokot@lakion.com>
  */
 class TranslationEntryChangeFactorySpec extends ObjectBehavior
 {
+    function let(TranslationEntryFactoryInterface $translationEntryFactory)
+    {
+        $this->beConstructedWith($translationEntryFactory);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('SyliusBot\TranslationTransformer\Factory\TranslationEntryChangeFactory');
@@ -21,7 +29,7 @@ class TranslationEntryChangeFactorySpec extends ObjectBehavior
 
     function it_implements_Translation_Entry_Change_Factory_interface()
     {
-        $this->shouldImplement('SyliusBot\TranslationTransformer\Factory\TranslationEntryChangeFactoryInterface');
+        $this->shouldImplement(TranslationEntryChangeFactoryInterface::class);
     }
 
     function it_creates_Translation_Entry_Change(
