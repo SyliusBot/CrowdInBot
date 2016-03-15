@@ -1,0 +1,5 @@
+# RENAME REGEXP /^sylius\..+?\.updated_at$/ USING SLUGIFIED VALUE AS KEY
+# RENAME REGEXP /^sylius\..+?\.create$/ USING SLUGIFIED VALUE AS KEY
+# RENAME REGEXP /^sylius\..+?\.update$/ USING SLUGIFIED VALUE AS KEY
+# RENAME REGEXP /^sylius\..+?\.manage$/ USING SLUGIFIED VALUE AS KEY
+

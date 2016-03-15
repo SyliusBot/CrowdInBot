@@ -35,7 +35,7 @@ final class LocalTranslationProvider implements TranslationProviderInterface
     public function __construct(TranslationFactoryInterface $translationFactory, $projectPath, $searchPath, $defaultLocale)
     {
         $this->translationFactory = $translationFactory;
-        $this->path = $projectPath . '/' . $searchPath . '/';
+        $this->path = rtrim($projectPath, '/') . '/' . rtrim($searchPath, '/') . '/';
         $this->defaultLocale = $defaultLocale;
     }
 
@@ -49,7 +49,7 @@ final class LocalTranslationProvider implements TranslationProviderInterface
         $finder
             ->files()
             ->in($this->path)
-            ->path('/.+?Bundle\/Resources\/translations.*?/')
+            ->path('/Sylius\/Bundle\/[^\/]+Bundle\/Resources\/translations.*?/')
             ->name(sprintf('*.%s.*', $this->defaultLocale))
         ;
 
