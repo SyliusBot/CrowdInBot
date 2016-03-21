@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace SyliusBot\Crowdin\Synchronizer;
 
 use Jjanvier\Library\Crowdin\Synchronizer\SynchronizerInterface;
@@ -8,6 +8,7 @@ use SyliusBot\Crowdin\Event\ArchiveExtractedEvent;
 use SyliusBot\Crowdin\TranslationArchiveProviderInterface;
 use SyliusBot\Crowdin\TranslationPathTransformerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * @author Kamil Kokot <kamil.kokot@lakion.com>
@@ -79,6 +80,9 @@ final class DownSynchronizer implements SynchronizerInterface
             }
 
             $translationsArchive->copyFile($file, $localPath);
+
+            file_put_contents($localPath, preg_replace('/^(\s+)/m', '\1\1', file_get_contents($localPath)));
+
             $files[] = $localPath;
         }
 
