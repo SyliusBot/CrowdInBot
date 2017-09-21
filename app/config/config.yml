@@ -72,7 +72,7 @@ sylius_bot_crowdin:
         base:
             organization: Sylius
             repository: Sylius
-            branch: 1.0
+            branch: "1.0"
         head:
             organization: SyliusBot
             repository: Sylius
