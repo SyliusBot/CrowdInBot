@@ -1,8 +1,9 @@
 <?php
- 
+
 namespace SyliusBot\Crowdin\Synchronizer;
 
 use Jjanvier\Library\Crowdin\Synchronizer\SynchronizerInterface;
+use SyliusBot\Github\Model\BranchInterface;
 use SyliusBot\GitWrapperInterface;
 
 /**
@@ -16,11 +17,20 @@ final class GitSynchronizer implements SynchronizerInterface
     private $git;
 
     /**
-     * @param GitWrapperInterface $gitWrapperInterface
+     * @var BranchInterface
      */
-    public function __construct(GitWrapperInterface $gitWrapperInterface)
-    {
-        $this->git = $gitWrapperInterface;
+    private $baseBranch;
+
+    /**
+     * @param GitWrapperInterface $git
+     * @param BranchInterface $baseBranch
+     */
+    public function __construct(
+        GitWrapperInterface $git,
+        BranchInterface $baseBranch
+    ) {
+        $this->git = $git;
+        $this->baseBranch = $baseBranch;
     }
 
     /**
@@ -37,9 +47,9 @@ final class GitSynchronizer implements SynchronizerInterface
 
     private function update()
     {
-        $this->git->checkout('master');
+        $this->git->checkout($this->baseBranch->getName());
         $this->git->fetch('upstream');
-        $this->git->merge('upstream/master');
-        $this->git->push('origin master');
+        $this->git->merge('upstream/' . $this->baseBranch->getName());
+        $this->git->push('origin ' . $this->baseBranch->getName());
     }
 }

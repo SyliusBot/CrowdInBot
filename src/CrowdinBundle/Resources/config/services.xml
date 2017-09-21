@@ -136,6 +136,7 @@
         </service>
         <service id="sylius_bot.crowdin.synchronizer.git" class="%sylius_bot.crowdin.synchronizer.git.class%" public="false">
             <argument type="service" id="sylius_bot.git_wrapper" />
+            <argument type="service" id="sylius_bot.project.base_branch" />
         </service>
 
         <service id="sylius_bot.crowdin.synchronizer.down" class="%sylius_bot.crowdin.synchronizer.down.class%" public="false">
